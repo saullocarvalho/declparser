@@ -51,13 +51,13 @@ class DeclParser(Parser):
     def varname(self, p):
         return p.ID
 
-    # typedef               : defoptderefarr
+    # typedef               : type_opt_deref_arr
     #                       | STRUCT LBRACK typedefs RBRACK
     #                       | UNION LBRACK typedefs RBRACK
 
-    @_('defoptderefarr')
+    @_('type_opt_deref_arr')
     def typedef(self, p):
-        return ('typedef', p.defoptderefarr)
+        return ('typedef', p.type_opt_deref_arr)
 
     @_('STRUCT LBRACK typedefs RBRACK')
     def typedef(self, p):
@@ -67,27 +67,27 @@ class DeclParser(Parser):
     def typedef(self, p):
         return ('union', p.typedefs)
 
-    # defoptderefarr        : defoptderefarr LBRACE size RBRACE
-    #                       | defoptderef
+    # type_opt_deref_arr    : type_opt_deref_arr LBRACE size RBRACE
+    #                       | type_opt_deref
 
-    @_('defoptderefarr LBRACE size RBRACE')
-    def defoptderefarr(self, p):
-        return ('array', p.defoptderefarr, p.size)
+    @_('type_opt_deref_arr LBRACE size RBRACE')
+    def type_opt_deref_arr(self, p):
+        return ('array', p.type_opt_deref_arr, p.size)
 
-    @_('defoptderef')
-    def defoptderefarr(self, p):
-        return p.defoptderef
+    @_('type_opt_deref')
+    def type_opt_deref_arr(self, p):
+        return p.type_opt_deref
 
-    # defoptderef           : DEREF defoptderef
-    #                       | defnonopt
+    # type_opt_deref        : DEREF type_opt_deref
+    #                       | type_non_opt
 
-    @_('DEREF defoptderef')
-    def defoptderef(self, p):
-        return ('pointer', p.defoptderef)
+    @_('DEREF type_opt_deref')
+    def type_opt_deref(self, p):
+        return ('pointer', p.type_opt_deref)
 
-    @_('defnonopt')
-    def defoptderef(self, p):
-        return p.defnonopt
+    @_('type_non_opt')
+    def type_opt_deref(self, p):
+        return p.type_non_opt
 
     # size                  : NUMBER
 
@@ -95,15 +95,15 @@ class DeclParser(Parser):
     def size(self, p):
         return int(p.NUMBER)
 
-    # defnonopt             : LPAREN typedef RPAREN
+    # type_non_opt          : LPAREN type_opt_deref_arr RPAREN
     #                       | typename
 
-    @_('LPAREN typedef RPAREN')
-    def defnonopt(self, p):
-        return p.typedef
+    @_('LPAREN type_opt_deref_arr RPAREN')
+    def type_non_opt(self, p):
+        return p.type_opt_deref_arr
 
     @_('typename')
-    def defnonopt(self, p):
+    def type_non_opt(self, p):
         return p.typename
 
     # typename              : ID
