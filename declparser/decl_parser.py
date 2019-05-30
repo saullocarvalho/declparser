@@ -1,5 +1,5 @@
 from sly import Parser
-from .decl_lexer import DeclLexer
+from decl_lexer import DeclLexer
 
 class DeclParser(Parser):
     # get the token list from the Lexer (required)
