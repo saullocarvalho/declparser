@@ -15,10 +15,10 @@ class DeclLexer(Lexer):
     ID['struct'] = STRUCT
     ID['union'] = UNION
 
-    LBRACK = r'\{'
-    RBRACK = r'\}'
-    LBRACE = r'\['
-    RBRACE = r'\]'
+    LBRACK = r'\['
+    RBRACK = r'\]'
+    LBRACE = r'\{'
+    RBRACE = r'\}'
     LPAREN = r'\('
     RPAREN = r'\)'
     DEREF = r'\*'

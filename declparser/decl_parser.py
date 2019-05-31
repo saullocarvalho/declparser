@@ -52,25 +52,25 @@ class DeclParser(Parser):
         return p.ID
 
     # typedef               : type_opt_deref_arr
-    #                       | STRUCT LBRACK typedefs RBRACK
-    #                       | UNION LBRACK typedefs RBRACK
+    #                       | STRUCT LBRACE typedefs RBRACE
+    #                       | UNION LBRACE typedefs RBRACE
 
     @_('type_opt_deref_arr')
     def typedef(self, p):
         return p.type_opt_deref_arr
 
-    @_('STRUCT LBRACK typedefs RBRACK')
+    @_('STRUCT LBRACE typedefs RBRACE')
     def typedef(self, p):
         return ('struct', p.typedefs)
 
-    @_('UNION LBRACK typedefs RBRACK')
+    @_('UNION LBRACE typedefs RBRACE')
     def typedef(self, p):
         return ('union', p.typedefs)
 
-    # type_opt_deref_arr    : type_opt_deref_arr LBRACE size RBRACE
+    # type_opt_deref_arr    : type_opt_deref_arr LBRACK size RBRACK
     #                       | type_opt_deref
 
-    @_('type_opt_deref_arr LBRACE size RBRACE')
+    @_('type_opt_deref_arr LBRACK size RBRACK')
     def type_opt_deref_arr(self, p):
         return ('array', p.type_opt_deref_arr, p.size)
 
