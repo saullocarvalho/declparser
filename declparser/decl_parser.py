@@ -43,7 +43,7 @@ class DeclParser(Parser):
 
     @_('typedef varname')
     def decl(self, p):
-        return ('decl', p.typedef, p.varname)
+        return ('decl', p.varname, p.typedef)
 
     # varname               : ID
 
@@ -57,7 +57,7 @@ class DeclParser(Parser):
 
     @_('type_opt_deref_arr')
     def typedef(self, p):
-        return ('typedef', p.type_opt_deref_arr)
+        return p.type_opt_deref_arr
 
     @_('STRUCT LBRACK typedefs RBRACK')
     def typedef(self, p):
@@ -109,7 +109,7 @@ class DeclParser(Parser):
     # typename              : ID
     @_('ID')
     def typename(self, p):
-        return p.ID
+        return ('id_type', p.ID)
 
 if __name__ == '__main__':
     lexer = DeclLexer()
